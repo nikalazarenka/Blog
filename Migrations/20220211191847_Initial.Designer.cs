@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220208181259_Initial")]
+    [Migration("20220211191847_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,8 +95,7 @@ namespace Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId")
-                        .IsUnique();
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Publications");
                 });
@@ -145,17 +144,12 @@ namespace Blog.Migrations
             modelBuilder.Entity("Blog.Data.Models.Publication", b =>
                 {
                     b.HasOne("Blog.Data.Models.Article", "Article")
-                        .WithOne("Publication")
-                        .HasForeignKey("Blog.Data.Models.Publication", "ArticleId")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Article");
-                });
-
-            modelBuilder.Entity("Blog.Data.Models.Article", b =>
-                {
-                    b.Navigation("Publication");
                 });
 
             modelBuilder.Entity("Blog.Data.Models.Category", b =>

@@ -113,8 +113,7 @@ namespace Blog.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_ArticleId",
                 table: "Publications",
-                column: "ArticleId",
-                unique: true);
+                column: "ArticleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

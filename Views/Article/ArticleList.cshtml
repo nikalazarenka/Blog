@@ -1,0 +1,9 @@
+﻿<h3>Article List</h3>
+<div class="row mt-5 mb-2">
+    @{
+        foreach (Article article in Model.allArticle)
+        {
+            @Html.Partial("AllArticle", article)     
+        }
+    }
+</div>

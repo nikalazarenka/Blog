@@ -1,88 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Blog.Data.Models
 {
     public class DbObjects
     {
-        //public static void Initial(AppDbContext context)
-        //{
-        //    if (!context.Categories.Any())
-        //    {
-        //        context.Categories.AddRange(Categories.Select(c => c.Value));
-        //    }
+        public static void Initial(AppDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                using (var ts = new TransactionScope())
+                {
+                    Category c1 = new Category { Name = "category1" };
+                    Category c2 = new Category { Name = "category2" };
+                    context.Categories.AddRange(c1, c2);
+                    ts.Complete();
+                }
+            }
 
-        //    if (!context.Articles.Any())
-        //    {
-        //        context.AddRange(
-        //            new Article
-        //            {
-        //                Name= "Example",
-        //                ShortDescription="example example example",
-        //                Description = "example example example example example example example example example",
-        //                Image = "/img/example.jpg",
-        //                Category = Categories["1 example category"],
-        //                Tags = { Tags["1 example tag"], Tags["2 example tag"] }
-        //            }
-        //            );
-        //    }
+            context.SaveChanges();
 
-        //    context.SaveChanges();
-        //}
+            if (!context.Tags.Any())
+            {
+                using (var ts = new TransactionScope())
+                {
+                    Tag t1 = new Tag { Name = "tag1" };
+                    Tag t2 = new Tag { Name = "tag2" };
+                    Tag t3 = new Tag { Name = "tag3" };
+                    Tag t4 = new Tag { Name = "tag4" };
+                    context.Tags.AddRange(t1, t2, t3, t4);
+                    ts.Complete();
+                }
+            }
 
-        //private static Dictionary<string, Category> category;
-        //public static Dictionary<string, Category> Categories
-        //{
-        //    get
-        //    {
-        //        if (category == null)
-        //        {
-        //            var categoryList = new Category[]
-        //            {
-        //                 new Category{Name ="1 example category"},
-        //                 new Category{Name ="2 example category"},
-        //                 new Category{Name ="3 example category"},
+            context.SaveChanges();
 
-        //            };
+            if (!context.Articles.Any())
+            {
+                using (var ts = new TransactionScope())
+                {
+                    Article a1 = new Article
+                    {
+                        Name = "Example1",
+                        ShortDescription = "example1 example1 example1",
+                        Description =
+                        "example1 example1 example1 example1 example1 example1 example1 example1 example1 " +
+                        "example1 example1 example1 example1 example1 example1 example1 example1 example1 " +
+                        "example1 example1 example1 example1 example1 example1 example1 example1 example1 " +
+                        "example1 example1 example1 example1 example1 example1 example1 example1 example1 ",
+                        Image = "/img/example1.jpg",
+                        Category = context.Categories.Where(c=>c.Name== "category1").FirstOrDefault(),
+                        Tags = new List<Tag>() { context.Tags.Where(t => t.Name == "tag1").FirstOrDefault(), context.Tags.Where(t => t.Name == "tag2").FirstOrDefault() }
+                    };
 
-        //            category = new Dictionary<string, Category>();
-        //            foreach (Category cat in categoryList)
-        //            {
-        //                category.Add(cat.Name, cat);
-        //            }
-        //        }
+                    Article a2 = new Article
+                    {
+                        Name = "Example2",
+                        ShortDescription = "example2 example2 example2",
+                        Description =
+                            "example2 example2 example2 example2 example2 example2 example2 example2 example2 " +
+                            "example2 example2 example2 example2 example2 example2 example2 example2 example2 " +
+                            "example2 example2 example2 example2 example2 example2 example2 example2 example2 " +
+                            "example2 example2 example2 example2 example2 example2 example2 example2 example2 ",
+                        Image = "/img/example2.jpg",
+                        Category = context.Categories.Where(c => c.Name == "category2").FirstOrDefault(),
+                        Tags = new List<Tag>() { context.Tags.Where(t=>t.Name=="tag3").FirstOrDefault(), context.Tags.Where(t => t.Name == "tag4").FirstOrDefault() }
+                    };
 
-        //        return category;
-        //    }
-        //}
+                    context.Articles.AddRange(a1, a2);
+                    
+                    // do the stuff
+                    ts.Complete();
+                }
 
-        //private static Dictionary<string, Tag> tag;
-        //public static Dictionary<string, Tag> Tags
-        //{
-        //    get
-        //    {
-        //        if (tag == null)
-        //        {
-        //            var tagList = new Tag[]
-        //            {
-        //                 new Tag {Name ="1 example tag"},
-        //                 new Tag {Name ="2 example tag"},
-        //                 new Tag {Name ="3 example tag"},
+                context.SaveChanges();
+            }
 
-        //            };
+            if (!context.Publications.Any())
+            {
+                using (var ts = new TransactionScope())
+                {
+                    context.Publications.AddRange(
+                    new Publication
+                    {
+                        PublicationDate = DateTime.Now,
+                        Article = context.Articles.FirstOrDefault()
+                    },
+                    new Publication
+                    {
+                        PublicationDate = DateTime.Now,
+                        Article = context.Articles.FirstOrDefault()
+                    }
+                    );
 
-        //            tag = new Dictionary<string, Tag>();
-        //            foreach (Tag tg in tagList)
-        //            {
-        //                tag.Add(tg.Name, tg);
-        //            }
-        //        }
+                    ts.Complete();
+                }
+            }
 
-        //        return tag;
-        //    }
-        //}
+            context.SaveChanges();
+        }
     }
 }

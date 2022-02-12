@@ -29,6 +29,7 @@ namespace Blog
             services.AddTransient<IArticleTags, TagRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc(options => options.EnableEndpointRouting = false);
@@ -46,7 +47,7 @@ namespace Blog
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                //DbObjects.Initial(context);
+                DbObjects.Initial(context);
             }
         }
     }

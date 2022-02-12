@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,6 @@ namespace Blog.Data.Models
         public string Image { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-
-        public ICollection<Tag> Tags { get; set; }
-        public virtual Publication Publication { get; set; }
+        public List<Tag> Tags { get; set; } = new();
     }
 }
