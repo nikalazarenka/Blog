@@ -1,17 +1,19 @@
-﻿<h1 align="center">Article List</h1>
+﻿@model HomeViewModel
 
+<h1 align="center">CATALOG</h1>
 <form method="get">
     <div class="form-inline">
         <label>Category: </label>
         <br />
         <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
         <br />
-        <label>Date: </label>
+        @*<label>Date: </label>
         <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
-        <br />
+        <br />*@
         <input type="submit" value="Filter" class="btn btn-outline-dark" />
     </div>
 </form>
+
 
 <div class="row mt-5 mb-2">
     @{
@@ -21,9 +23,10 @@
         }
     }
 </div>
+
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="ArticleList"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        class="btn btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -33,7 +36,7 @@
 
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="ArticleList"
+    <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-outline-dark">
         Next

@@ -9,5 +9,7 @@ namespace Blog.Data.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; } = null!;
         public DbSet<Publication> Publications { get; set; }
+        public DbSet<Date> Dates { get; set; }
+
     }
 }

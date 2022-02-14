@@ -17,6 +17,20 @@ namespace Blog.Data.Repository
         }
         public IEnumerable<Publication> Publications => appDbContext.Publications;
 
+        public IEnumerable<DateTime> Dates
+        {
+            get
+            {
+                List<DateTime> dates = new List<DateTime>();
+                foreach(Publication pub in appDbContext.Publications)
+                {
+                    dates.Add(pub.PublicationDate);
+                }
+
+                return dates;
+            }
+        }
+
         public void createPublication(Publication publication, Article article)
         {
             publication.PublicationDate = DateTime.Now;
@@ -24,5 +38,7 @@ namespace Blog.Data.Repository
             appDbContext.Publications.Add(publication);
             appDbContext.SaveChanges();
         }
+
+        
     }
 }

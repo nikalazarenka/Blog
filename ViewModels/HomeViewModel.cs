@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 namespace Blog.ViewModels
 {
-    public class ArticleListViewModel
+    public class HomeViewModel
     {
-        public IEnumerable<Article> allArticle { get; set; }
+        public IEnumerable<Article> allArticles { get; set; }
         public PageViewModel PageViewModel { get; set; }
         public FilterViewModel FilterViewModel { get; set; }
-
-        public List<string> articleTags;
     }
 }

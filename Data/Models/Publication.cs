@@ -11,7 +11,7 @@ namespace Blog.Data.Models
         public int Id { get; set; }
         public int ArticleId { get; set; }
         public virtual Article Article { get; set; }
-        public DateTime PublicationDate { get; set; }
-
+        public int PublicationDateId { get; set; }
+        public virtual Date PublicationDate { get; set; }
     }
 }

@@ -10,25 +10,23 @@ using System.Threading.Tasks;
 
 namespace Blog.Controllers
 {
-    public class ArticleController : Controller
+    public class HomeController : Controller
     {
-        private readonly IAllArticle _allArticles;
+        private readonly IAllArticle _articleRepository;
         private readonly IArticleCategory _categoryRepository;
         private readonly IAllPublications _publicationsRepository;
-
-        public ArticleController(IAllArticle articleRepository, IArticleCategory categoryRepository, IAllPublications publicationsRepository)
+        public HomeController(IAllArticle articleRepository, IArticleCategory categoryRepository, IAllPublications publicationsRepository)
         {
-            _allArticles = articleRepository;
+            _articleRepository = articleRepository;
             _categoryRepository = categoryRepository;
             _publicationsRepository = publicationsRepository;
         }
-
-        public ViewResult ArticleList(int? category, int? date, int page = 1)
+        public ViewResult Index(int? category, int? date,int page=1)
         {
             int pageSize = 3;
-            IQueryable<Article> articles = (IQueryable<Article>)_allArticles.Articles;
+            IQueryable<Article> articles = (IQueryable<Article>)_articleRepository.Articles;
 
-            if (category != null && category != 0)
+            if (category != null && category != 0 && date != null && date != 0)
             {
                 articles = articles.Where(a => a.CategoryId == category);
             }

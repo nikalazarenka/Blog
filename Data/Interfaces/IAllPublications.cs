@@ -11,5 +11,7 @@ namespace Blog.Data.Interfaces
     {
         IEnumerable<Publication> Publications { get; }
         void createPublication(Publication publication, Article article);
+        IEnumerable<DateTime> Dates { get; }
+
     }
 }
