@@ -8,7 +8,8 @@ namespace Blog.Data.Models
 {
     public class Date
     {
-        public DateTime PublicationDate { get; set; }
-        public List<Publication> Publications { get; set; }
+        public int Id { get; set; }
+        public DateTime Datetime { get; set; }
+        public List<Article> Articles { get; set; }
     }
 }

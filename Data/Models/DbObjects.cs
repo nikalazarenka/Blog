@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace Blog.Data.Models
@@ -31,6 +33,43 @@ namespace Blog.Data.Models
 
             context.SaveChanges();
 
+            if (!context.Dates.Any())
+            {
+                using (var ts = new TransactionScope())
+                {
+                    context.Dates.AddRange(
+                        new Date
+                        {
+                            Datetime = DateTime.Now
+                        },
+                        new Date
+                        {
+                            Datetime = new DateTime(2015, 7, 20, 18, 30, 25)
+                        },
+                        new Date
+                        {
+                            Datetime = new DateTime(2018, 7, 20, 18, 30, 25)
+                        },
+                        new Date
+                        {
+                            Datetime = new DateTime(2020, 12, 20, 17, 34, 25)
+                        },
+                        new Date
+                        {
+                            Datetime = new DateTime(2022, 2, 15, 21, 35, 0)
+                        },
+                        new Date
+                        {
+                            Datetime = new DateTime(2011, 10, 20, 17, 34, 24)
+                        }
+                        );
+
+                    ts.Complete();
+                }
+            }
+
+            context.SaveChanges();
+
             if (!context.Articles.Any())
             {
                 using (var ts = new TransactionScope())
@@ -47,7 +86,8 @@ namespace Blog.Data.Models
                             "example1 example1 example1 example1 example1 example1 example1 example1 example1 ",
                             Image = "/img/example1.jpg",
                             Category = Categories["category1"],
-                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag2"] }
+                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag2"] },
+                            Date = context.Dates.FirstOrDefault()
                         },
                         new Article
                         {
@@ -60,7 +100,8 @@ namespace Blog.Data.Models
                             "example2 example2 example2 example2 example2 example2 example2 example2 example2 ",
                             Image = "/img/example2.jpg",
                             Category = Categories["category2"],
-                            Tags = new List<Tag>() { Tags["tag3"], Tags["tag4"] }
+                            Tags = new List<Tag>() { Tags["tag3"], Tags["tag4"] },
+                            Date = context.Dates.FirstOrDefault()
                         },
                         new Article
                         {
@@ -73,7 +114,8 @@ namespace Blog.Data.Models
                             "example3 example3 example3 example3 example3 example3 example3 example3 example3 ",
                             Image = "/img/example3.jpg",
                             Category = Categories["category3"],
-                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag5"] }
+                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag5"] },
+                            Date = context.Dates.FirstOrDefault()
                         },
                         new Article
                         {
@@ -86,7 +128,8 @@ namespace Blog.Data.Models
                             "example4 example4 example4 example4 example4 example4 example4 example4 example4 ",
                             Image = "/img/example4.jpg",
                             Category = Categories["category1"],
-                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag4"] }
+                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag4"] },
+                            Date = context.Dates.FirstOrDefault()
                         },
                         new Article
                         {
@@ -99,7 +142,8 @@ namespace Blog.Data.Models
                             "example5 example5 example5 example5 example5 example5 example5 example5 example5 ",
                             Image = "/img/example5.jpg",
                             Category = Categories["category3"],
-                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag5"] }
+                            Tags = new List<Tag>() { Tags["tag1"], Tags["tag5"] },
+                            Date = context.Dates.FirstOrDefault()
                         },
                         new Article
                         {
@@ -112,38 +156,17 @@ namespace Blog.Data.Models
                             "example6 example6 example6 example6 example6 example6 example6 example6 example6 ",
                             Image = "/img/example6.jpg",
                             Category = Categories["category4"],
-                            Tags = new List<Tag>() { Tags["tag3"], Tags["tag2"] }
+                            Tags = new List<Tag>() { Tags["tag3"], Tags["tag2"] },
+                            Date = context.Dates.FirstOrDefault()
                         }
                         );
-                    
+
                     ts.Complete();
                 }
-
-                context.SaveChanges();
             }
 
-            //if (!context.Publications.Any())
-            //{
-            //    using (var ts = new TransactionScope())
-            //    {
-            //        context.Publications.AddRange(
-            //        new Publication
-            //        {
-            //            PublicationDate = DateTime.Now,
-            //            Article = context.Articles.FirstOrDefault()
-            //        },
-            //        new Publication
-            //        {
-            //            PublicationDate = DateTime.Now,
-            //            Article = context.Articles.FirstOrDefault()
-            //        }
-            //        );
-
-            //        ts.Complete();
-            //    }
-            //}
-
             context.SaveChanges();
+
         }
 
         private static Dictionary<string, Category> category;
@@ -198,5 +221,5 @@ namespace Blog.Data.Models
                 return tag;
             }
         }
-    }
+    }     
 }

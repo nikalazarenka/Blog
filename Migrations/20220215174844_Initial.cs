@@ -21,6 +21,19 @@ namespace Blog.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Datetime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
@@ -87,7 +100,7 @@ namespace Blog.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ArticleId = table.Column<int>(type: "int", nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,6 +109,12 @@ namespace Blog.Migrations
                         name: "FK_Publications_Articles_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Publications_Dates_DateId",
+                        column: x => x.DateId,
+                        principalTable: "Dates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,6 +133,11 @@ namespace Blog.Migrations
                 name: "IX_Publications_ArticleId",
                 table: "Publications",
                 column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publications_DateId",
+                table: "Publications",
+                column: "DateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -129,6 +153,9 @@ namespace Blog.Migrations
 
             migrationBuilder.DropTable(
                 name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "Dates");
 
             migrationBuilder.DropTable(
                 name: "Categories");

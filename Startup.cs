@@ -24,9 +24,9 @@ namespace Blog
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_configurationString.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IAllArticle, ArticleRepository>();
-            services.AddTransient<IAllPublications, PublicationRepository>();
             services.AddTransient<IArticleCategory, CategoryRepository>();
             services.AddTransient<IArticleTags, TagRepository>();
+            services.AddTransient<IAllDates, DateRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

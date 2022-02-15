@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220211191847_Initial")]
+    [Migration("20220215174844_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,21 @@ namespace Blog.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Blog.Data.Models.Date", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Datetime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dates");
+                });
+
             modelBuilder.Entity("Blog.Data.Models.Publication", b =>
                 {
                     b.Property<int>("Id")
@@ -90,12 +105,14 @@ namespace Blog.Migrations
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PublicationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("DateId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
+
+                    b.HasIndex("DateId");
 
                     b.ToTable("Publications");
                 });
@@ -149,12 +166,25 @@ namespace Blog.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Blog.Data.Models.Date", "Date")
+                        .WithMany("Publications")
+                        .HasForeignKey("DateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Article");
+
+                    b.Navigation("Date");
                 });
 
             modelBuilder.Entity("Blog.Data.Models.Category", b =>
                 {
                     b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("Blog.Data.Models.Date", b =>
+                {
+                    b.Navigation("Publications");
                 });
 #pragma warning restore 612, 618
         }
