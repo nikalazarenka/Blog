@@ -1,0 +1,46 @@
+﻿@model HomeViewModel
+
+<h1 align="center">CATALOG</h1>
+<form method="get">
+    <div>
+        <div style="margin-left: 10px; display: inline-block">
+            <label>Category: </label>
+            <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
+        </div>
+        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
+            <label>Date: </label>
+            <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
+        </div>
+        <input type="submit" value="Filter" class="btn btn-outline-dark" />
+    </div>
+</form>
+
+
+<div class="row mt-5 mb-2">
+    @{
+        foreach (Article article in Model.allArticles)
+        {
+            @Html.Partial("AllArticle", article)
+        }
+    }
+</div>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Previous
+    </a>
+}
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

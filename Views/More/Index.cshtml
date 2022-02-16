@@ -1,0 +1,24 @@
+﻿@model MoreViewModel
+
+<div class="container-fluid">
+    <div>
+        <h1 align="center">@Model.Article.Name</h1>
+        <div>
+            <label>Category: @Model.Article.Category</label>
+            <label>Tags:</label>
+            @foreach (var tg in Model.Article.Tags)
+            {
+                <label>@tg.Name</label>
+            }
+            <label>Date of publications: @Model.Article.Date</label>
+        </div>
+        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
+            <img class="img-thumbnail" src="@Model.Article.Image" />
+        </div>
+        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
+            <label>
+                @Model.Article.Description
+            </label>
+        </div>
+    </div>
+</div>

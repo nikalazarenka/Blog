@@ -1,0 +1,42 @@
+﻿<h1 align="center">Article List</h1>
+
+<form method="get">
+    <div class="form-inline">
+        <label>Category: </label>
+        <br />
+        <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
+        <br />
+        <label>Date: </label>
+        <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
+        <br />
+        <input type="submit" value="Filter" class="btn btn-outline-dark" />
+    </div>
+</form>
+
+<div class="row mt-5 mb-2">
+    @{
+        foreach (Article article in Model.allArticle)
+        {
+            @Html.Partial("AllArticle", article)
+        }
+    }
+</div>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="ArticleList"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Previous
+    </a>
+}
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="ArticleList"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
