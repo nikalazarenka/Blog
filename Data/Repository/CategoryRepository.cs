@@ -1,10 +1,7 @@
 ﻿using Blog.Data.Interfaces;
 using Blog.Data.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Data.Repository
 {
@@ -16,5 +13,7 @@ namespace Blog.Data.Repository
             this.appDbContext = appDbContext;
         }
         public IEnumerable<Category> AllCategories => appDbContext.Categories;
+
+        public Category getObjectCategory(int categoryId) => appDbContext.Categories.FirstOrDefault(p => p.Id == categoryId);
     }
 }

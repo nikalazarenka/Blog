@@ -2,11 +2,7 @@
 using Blog.Data.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Controllers
 {
@@ -15,13 +11,13 @@ namespace Blog.Controllers
         private readonly IAllArticle _articleRepository;
         private readonly IArticleCategory _categoryRepository;
         private readonly IAllDates _datesRepository;
-        public HomeController(IAllArticle articleRepository, IArticleCategory categoryRepository, IAllDates datesRepository)
+        public HomeController(IAllArticle articlesRepository, IArticleCategory categoriesRepository, IAllDates datesRepository)
         {
-            _articleRepository = articleRepository;
-            _categoryRepository = categoryRepository;
+            _articleRepository = articlesRepository;
+            _categoryRepository = categoriesRepository;
             _datesRepository = datesRepository;
         }
-        public ViewResult Index(int? category, int? date,int page=1)
+        public ViewResult Index(int? category, int? date, int page = 1)
         {
             int pageSize = 3;
             IQueryable<Article> articles = (IQueryable<Article>)_articleRepository.Articles;

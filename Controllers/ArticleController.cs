@@ -2,50 +2,50 @@
 using Blog.Data.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Controllers
 {
     public class ArticleController : Controller
     {
-        private readonly IAllArticle _allArticles;
+        private readonly IAllArticle _articleRepository;
         private readonly IArticleCategory _categoryRepository;
-        //private readonly IAllPublications _publicationsRepository;
-
-        public ArticleController(IAllArticle articleRepository, IArticleCategory categoryRepository)//, IAllPublications publicationsRepository)
+        private readonly IAllDates _datesRepository;
+        public ArticleController(IAllArticle articlesRepository, IArticleCategory categoriesRepository, IAllDates datesRepository)
         {
-            _allArticles = articleRepository;
-            _categoryRepository = categoryRepository;
-            //_publicationsRepository = publicationsRepository;
+            _articleRepository = articlesRepository;
+            _categoryRepository = categoriesRepository;
+            _datesRepository = datesRepository;
         }
 
         public ViewResult ArticleList(int? category, int? date, int page = 1)
         {
             int pageSize = 3;
-            IQueryable<Article> articles = (IQueryable<Article>)_allArticles.Articles;
+            IQueryable<Article> articles = (IQueryable<Article>)_articleRepository.Articles;
 
             if (category != null && category != 0)
             {
                 articles = articles.Where(a => a.CategoryId == category);
             }
 
+            if (date != null && date != 0)
+            {
+                articles = articles.Where(a => a.DateId == date);
+            }
+
             var count = articles.Count();
             var items = articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-            //FilterViewModel filterViewModel = new FilterViewModel(_categoryRepository.AllCategories.ToList(), category, _publicationsRepository.Dates.ToList(), date);
+            FilterViewModel filterViewModel = new FilterViewModel(_categoryRepository.AllCategories.ToList(), category, _datesRepository.Dates.ToList(), date);
 
-            var homeArticles = new HomeViewModel
+            var articleList = new ArticleListViewModel
             {
-                allArticles = items,
-                //FilterViewModel = filterViewModel,
+                allArticle = items,
+                FilterViewModel = filterViewModel,
                 PageViewModel = pageViewModel
             };
 
-            return View(homeArticles);
+            return View(articleList);
         }
     }
 }

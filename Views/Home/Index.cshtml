@@ -2,14 +2,15 @@
 
 <h1 align="center">CATALOG</h1>
 <form method="get">
-    <div class="form-inline">
-        <label>Category: </label>
-        <br />
-        <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
-        <br />
-        <label>Date: </label>
-        <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
-        <br />
+    <div>
+        <div style="margin-left: 10px; display: inline-block">
+            <label>Category: </label>
+            <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
+        </div>
+        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
+            <label>Date: </label>
+            <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
+        </div>
         <input type="submit" value="Filter" class="btn btn-outline-dark" />
     </div>
 </form>
