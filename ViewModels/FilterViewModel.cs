@@ -14,16 +14,19 @@ namespace Blog.ViewModels
         public SelectList Categories { get; private set; }
         public int? SelectedCategory { get; private set; }
 
-        public FilterViewModel(List<Category> categories, int? category, List<Date> dates, int? date)
+        public FilterViewModel(List<Category> categories, int? category, List<Date> dates, int? date, List<Tag> tags, int? tag)
         {
             categories.Insert(0, new Category { Name = "All", Id = 0 });
             dates.Insert(0, new Date { Datetime = "All", Id = 0 });
+            tags.Insert(0, new Tag { Name = "All", Id = 0 });
 
             Categories = new SelectList(categories, "Id", "Name", category);
-            Dates = new SelectList(dates, "Id", "Datetime", date); 
+            Dates = new SelectList(dates, "Id", "Datetime", date);
+            Tags = new SelectList(tags, "Id", "Name", tag);
             
             SelectedCategory = category;
             SelectedDate = date;
+            SelectedTag = tag;
         }
 
     }

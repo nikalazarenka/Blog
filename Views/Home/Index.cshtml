@@ -11,6 +11,10 @@
             <label>Date: </label>
             <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
         </div>
+        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
+            <label>Tag: </label>
+            <select name="tag" asp-items="Model.FilterViewModel.Tags" class="form-control" style="width: 100px"></select>
+        </div>
         <input type="submit" value="Filter" class="btn btn-outline-dark" />
     </div>
 </form>

@@ -6,5 +6,7 @@ namespace Blog.Data.Interfaces
     public interface IAllDates
     {
         IEnumerable<Date> Dates { get; }
+        Date getObjectDate(int dateId);
+
     }
 }
