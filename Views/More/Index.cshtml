@@ -3,28 +3,28 @@
 <div class="container-fluid">
     <div>
         <h1 align="center">@Model.Article.Name</h1>
-        <div @*class="d-xl-inline-flex"*@>
-            <div class="d-xl-inline-flex">
-                <img class="img-thumbnail" src="@Model.Article.Image" />
-            </div>
+        <div class="d-xl-inline-flex">
             <div>
-                <label>
-                    @Model.Article.Description
-                </label>
+                <img class="img-thumbnail" src="@Model.Article.Image" />
+                <div>
+                    <label>Category: @Model.Category.Name</label>
+                </div>
+                <div>
+                    <label>Tags:</label>
+                    @foreach (var tg in Model.Tags)
+                    {
+                        <label>@tg.Name </label>
+                    }
+                </div>
+                <div>
+                    <label>Date of publications: @Model.Date.Datetime</label>
+                </div>
             </div>
-        </div>
-        <div>
-            <label>Category: @Model.Category.Name</label>
-        </div>
-        <div>
-            <label>Tags:</label>
-            @foreach (var tg in Model.Tags)
-            {
-                <label>@tg.Name </label>
-            }
-        </div>
-        <div>
-            <label>Date of publications: @Model.Date.Datetime</label>
+            <div style="height: 421px; width:800px">
+                <p class="p-md-3">
+                    @Model.Article.Description
+                </p>
+            </div>
         </div>
     </div>
 </div>
