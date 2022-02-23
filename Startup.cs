@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Blog.Data.Interfaces;
 using Blog.Data.Models;
 using Blog.Data.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog
 {
@@ -22,6 +23,18 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_configurationString.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>(
+                opt =>
+                {
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequiredLength = 5;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Lockout.MaxFailedAccessAttempts = 5; 
+                    opt.User.RequireUniqueEmail = true;
+                    opt.SignIn.RequireConfirmedEmail = false;
+                })
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddTransient<IAllArticle, ArticleRepository>();
             services.AddTransient<IArticleCategory, CategoryRepository>();
@@ -42,6 +55,8 @@ namespace Blog
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseMvcWithDefaultRoute();
 
             using (var scope = app.ApplicationServices.CreateScope())

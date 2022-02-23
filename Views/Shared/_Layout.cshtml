@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -22,9 +24,21 @@
                             <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-success" type="submit">Sign in</button>
-                    </form>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form class="d-flex" method = "post" >
+
+                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller = "Account" asp-action= "SignOut">Sign out</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form class="d-flex">
+
+                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="SignIn">Sign in</button>
+                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="Register">Sign up</button>
+                        </form>
+                    }
                 </div>
             </div>
         </nav>
