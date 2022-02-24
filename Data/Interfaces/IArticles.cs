@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Blog.Data.Interfaces
 {
-    public interface IAllArticle
+    public interface IArticles
     {
         IEnumerable<Article> Articles { get; }
-        Article getObjectArticle(int articleId);
+        Article getObjectArticle(int? articleId);
     }
 }

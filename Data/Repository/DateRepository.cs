@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Blog.Data.Repository
 {
-    public class DateRepository : IAllDates
+    public class DateRepository : IDates
     {
         private readonly AppDbContext appDbContext;
         public DateRepository(AppDbContext appDbContext)

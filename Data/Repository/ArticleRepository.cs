@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Blog.Data.Repository
 {
-    public class ArticleRepository : IAllArticle
+    public class ArticleRepository : IArticles
     {
         private readonly AppDbContext appDbContext;
         public ArticleRepository(AppDbContext appDbContext)
@@ -15,6 +15,6 @@ namespace Blog.Data.Repository
         }
         public IEnumerable<Article> Articles => appDbContext.Articles.Include(c => c.Category);
 
-        public Article getObjectArticle(int articleId) => appDbContext.Articles.FirstOrDefault(p => p.Id == articleId);
+        public Article getObjectArticle(int? articleId) => appDbContext.Articles.FirstOrDefault(p => p.Id == articleId);
     }
 }

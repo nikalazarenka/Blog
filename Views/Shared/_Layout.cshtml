@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -11,45 +9,54 @@
     <script src="~/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">BLOG</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <form class="d-flex" method = "post" >
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">BLOG</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" asp-controller="Article" asp-action="Index">Articles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" asp-controller="Tag" asp-action="Index">Tags</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" asp-controller="Category" asp-action="Index">Categories</a>
+                                </li>
+                            }
+                        </ul>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <form class="d-flex" method="post">
 
-                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller = "Account" asp-action= "SignOut">Sign out</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form class="d-flex">
+                                <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="SignOut">Sign out</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="d-flex">
 
-                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="SignIn">Sign in</button>
-                            <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="Register">Sign up</button>
-                        </form>
-                    }
+                                <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="SignIn">Sign in</button>
+                                <button class="btn btn-outline-success" type="submit" style="margin:2px" asp-controller="Account" asp-action="Register">Sign up</button>
+                            </form>
+                        }
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <br /><br /><br />
-    <div class="container" mt-5>
-        @RenderBody()
-    </div>
-    <footer class="container">
-        <p class="float-end"><a href="#">Back to top</a></p>
-        <p>© 2022 All rights reserved ·</p>
-    </footer>
+            </nav>
+        </header>
+        <br /><br /><br />
+        <div class="container" mt-5>
+            @RenderBody()
+        </div>
+        <footer class="container">
+            <p class="float-end"><a href="#">Back to top</a></p>
+            <p>© 2022 All rights reserved ·</p>
+        </footer>
 </body>
 </html>

@@ -1,18 +1,17 @@
 ﻿using Blog.Data.Interfaces;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Blog.Controllers
 {
     public class MoreController : Controller
     {
-        private readonly IAllArticle _articleRepository;
-        private readonly IArticleCategory _categoryRepository;
-        private readonly IAllDates _dateRepository;
-        private readonly IArticleTags _tagsRepository;
+        private readonly IArticles _articleRepository;
+        private readonly ICategories _categoryRepository;
+        private readonly IDates _dateRepository;
+        private readonly ITags _tagsRepository;
 
-        public MoreController(IAllArticle articleRepository, IArticleCategory categoryRepository, IAllDates dateRepository, IArticleTags tagsRepository)
+        public MoreController(IArticles articleRepository, ICategories categoryRepository, IDates dateRepository, ITags tagsRepository)
         {
             _articleRepository = articleRepository;
             _categoryRepository = categoryRepository;
@@ -25,8 +24,8 @@ namespace Blog.Controllers
             var article = _articleRepository.getObjectArticle(id);
             var category = _categoryRepository.getObjectCategory(article.CategoryId);
             var date = _dateRepository.getObjectDate(article.DateId);
-            var tags = _tagsRepository.getObjectTags(article.Id);
-            var more = new MoreViewModel
+            var tags = _tagsRepository.getObjectTagsByArticleId(article.Id);
+            var _article = new ArticleViewModel
             {
                 Article = article,
                 Category = category,
@@ -34,7 +33,7 @@ namespace Blog.Controllers
                 Tags = tags
             };
 
-            return View(more);
+            return View(_article);
         }
     }
 }

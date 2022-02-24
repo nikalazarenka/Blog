@@ -36,10 +36,10 @@ namespace Blog
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddTransient<IAllArticle, ArticleRepository>();
-            services.AddTransient<IArticleCategory, CategoryRepository>();
-            services.AddTransient<IArticleTags, TagRepository>();
-            services.AddTransient<IAllDates, DateRepository>();
+            services.AddTransient<IArticles, ArticleRepository>();
+            services.AddTransient<ICategories, CategoryRepository>();
+            services.AddTransient<ITags, TagRepository>();
+            services.AddTransient<IDates, DateRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -55,9 +55,16 @@ namespace Blog
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseMvc();
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMvcWithDefaultRoute();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Article}/{action=Index}/{id?}");
+            });
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
