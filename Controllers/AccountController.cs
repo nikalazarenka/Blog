@@ -40,7 +40,7 @@ namespace Blog.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Article");
                 }
 
                 foreach (var error in result.Errors)
@@ -52,7 +52,7 @@ namespace Blog.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignIn(string returnUrl = "/Home/Index")
+        public IActionResult SignIn(string returnUrl = "/Article/Index")
         {
             return View(new SignInViewModel { ReturnUrl = returnUrl });
         }
@@ -72,7 +72,7 @@ namespace Blog.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Article");
                     }
                 }
                 else
@@ -89,7 +89,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> SignOut()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Article");
         }
     }
 }

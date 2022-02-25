@@ -1,6 +1,18 @@
 ﻿@model ArticlesViewModel
 
-<h1 align="center">CATALOG</h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    <h1>ARTICLES</h1>
+    <form asp-controller="Article" asp-action="Create" method="get">
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger" value="Add New" style="background-color: dodgerblue; border-color: dodgerblue;" />
+        </div>
+    </form>
+}
+else
+{
+    <h1 align="center">CATALOG</h1>
+}
 <form method="get">
     <div>
         <div style="margin-left: 10px; display: inline-block">
@@ -18,16 +30,17 @@
         <input type="submit" value="Filter" class="btn btn-outline-dark" />
     </div>
 </form>
-
-
+    
 <div class="row mt-5 mb-2">
     @{
         foreach (Article article in Model.Articles)
         {
             @Html.Partial("AllArticle", article)
+
         }
     }
 </div>
+
 
 @if (Model.PageViewModel.HasPreviousPage)
 {

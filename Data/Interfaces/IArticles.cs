@@ -7,5 +7,9 @@ namespace Blog.Data.Interfaces
     {
         IEnumerable<Article> Articles { get; }
         Article getObjectArticle(int? articleId);
+
+        public void Create(string name, string shortDescription, string description, string Image, Date date, Category category, List<Tag> tags);
+        public void Delete(int? id);
+        public void Edit(Article article);
     }
 }

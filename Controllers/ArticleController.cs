@@ -2,6 +2,8 @@
 using Blog.Data.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Blog.Controllers
@@ -52,6 +54,27 @@ namespace Blog.Controllers
             };
 
             return View(articles);
+        }
+
+        [HttpGet]
+        public IActionResult Create(int? category, int? tag)
+        {
+            SelectViewModel selectViewModel = new SelectViewModel(_categoryRepository.Categories.ToList(), category, _tagsRepository.Tags.ToList());
+            var createArticleViewModel = new CreateOrEditArticleViewModel
+            {
+                SelectViewModel = selectViewModel,
+                Article = new Article()
+            };
+
+            return View(createArticleViewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult Create(string name)
+        {
+            _categoryRepository.Create(name);
+            return RedirectToAction("Index", "Category");
         }
     }
 }

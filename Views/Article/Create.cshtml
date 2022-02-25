@@ -1,0 +1,40 @@
+﻿@model CreateOrEditArticleViewModel
+
+<h1>Add new article</h1>
+
+<form asp-action="Create" asp-controller="Article">
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.Name">Name</label>
+        <input type="text" class="form-control" asp-for="Article.Name" />
+    </div>
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.ShortDescription">Short description</label>
+        <input type="text" class="form-control" asp-for="Article.ShortDescription" />
+    </div>
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.Description">Description</label>
+        <input type="text" class="form-control" asp-for="Article.Description" />
+    </div>
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.Image">Image link</label>
+        <input type="text" class="form-control" asp-for="Article.Image" />
+    </div>
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.Category">Category</label>
+        <select name="category" asp-items="Model.SelectViewModel.Categories" class="form-control">
+            <option value="0">Select Category</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="control-label" asp-for="Article.Tags">Tags</label>
+        @Html.ListBoxFor(m => m.SelectViewModel.TagIds, Model.SelectViewModel.Tags, new { @class = "listbox" })
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>
