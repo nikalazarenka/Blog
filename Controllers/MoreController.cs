@@ -6,22 +6,34 @@ namespace Blog.Controllers
 {
     public class MoreController : Controller
     {
-        private readonly IAllArticle _articleRepository;
+        private readonly IArticles _articleRepository;
+        private readonly ICategories _categoryRepository;
+        private readonly IDates _dateRepository;
+        private readonly ITags _tagsRepository;
 
-        public MoreController(IAllArticle articleRepository)
+        public MoreController(IArticles articleRepository, ICategories categoryRepository, IDates dateRepository, ITags tagsRepository)
         {
             _articleRepository = articleRepository;
+            _categoryRepository = categoryRepository;
+            _dateRepository = dateRepository;
+            _tagsRepository = tagsRepository;
         }
 
         public ViewResult Index(int id)
         {
-            var item = _articleRepository.getObjectArticle(id);
-            var more = new MoreViewModel
+            var article = _articleRepository.getObjectArticle(id);
+            var category = _categoryRepository.getObjectCategory(article.CategoryId);
+            var date = _dateRepository.getObjectDate(article.DateId);
+            var tags = _tagsRepository.getObjectTagsByArticleId(article.Id);
+            var _article = new ArticleViewModel
             {
-                Article = item
+                Article = article,
+                Category = category,
+                Date = date,
+                Tags = tags
             };
 
-            return View(more);
+            return View(_article);
         }
     }
 }

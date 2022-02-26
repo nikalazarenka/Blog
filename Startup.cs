@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Blog.Data.Interfaces;
 using Blog.Data.Models;
 using Blog.Data.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog
 {
@@ -22,11 +23,23 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_configurationString.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>(
+                opt =>
+                {
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequiredLength = 5;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Lockout.MaxFailedAccessAttempts = 5; 
+                    opt.User.RequireUniqueEmail = true;
+                    opt.SignIn.RequireConfirmedEmail = false;
+                })
+                .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddTransient<IAllArticle, ArticleRepository>();
-            services.AddTransient<IArticleCategory, CategoryRepository>();
-            services.AddTransient<IArticleTags, TagRepository>();
-            services.AddTransient<IAllDates, DateRepository>();
+            services.AddTransient<IArticles, ArticleRepository>();
+            services.AddTransient<ICategories, CategoryRepository>();
+            services.AddTransient<ITags, TagRepository>();
+            services.AddTransient<IDates, DateRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -42,7 +55,16 @@ namespace Blog
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             using (var scope = app.ApplicationServices.CreateScope())
             {

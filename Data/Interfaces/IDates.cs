@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Blog.Data.Interfaces
 {
-    public interface IAllDates
+    public interface IDates
     {
         IEnumerable<Date> Dates { get; }
+        Date getObjectDate(int dateId);
+
     }
 }

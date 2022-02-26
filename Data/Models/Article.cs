@@ -13,6 +13,6 @@ namespace Blog.Data.Models
         public virtual Date Date { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public List<Tag> Tags { get; set; } = new();
+        public List<Tag> Tags { get; set; } 
     }
 }

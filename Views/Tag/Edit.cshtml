@@ -1,0 +1,13 @@
+﻿@model TagViewModel
+
+<h1>Edit tag</h1>
+
+<form asp-action="Edit" asp-controller="Tag">
+    <div class="mb-3">
+        <label class="control-label" asp-for="Name">Name</label>
+        <input type="text" class="form-control" asp-for="Name" />
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

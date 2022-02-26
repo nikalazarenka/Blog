@@ -1,0 +1,33 @@
+﻿@model CategoriesViewModel
+
+<h1>CATEGORIES</h1>
+<form asp-controller="Category" asp-action="Create" method="get">
+    <div class="form-group">
+        <input type="submit" class="btn btn-danger" value="Add New" style="background-color: dodgerblue; border-color: dodgerblue;" />
+    </div>
+</form>
+<table class="table" align="center">
+    <tr><td><b>Name</b></td><td><b>Action</b></td></tr>
+    @foreach (var item in Model.Categories)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                <div class="d-flex">
+                    <form asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" method="get">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger" value="Edit" style="background-color: limegreen; border-color: limegreen; margin-right: 2px" />
+                        </div>
+                    </form>
+                    <form asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger" value="Delete" style="background-color: indianred; border-color: indianred" />
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
