@@ -8,5 +8,8 @@ namespace Blog.ViewModels
         public IEnumerable<Article> Articles { get; set; }
         public PageViewModel PageViewModel { get; set; }
         public FilterViewModel FilterViewModel { get; set; }
+
+        public SelectViewModel SelectViewModel { get; set; }
+        public ArticleViewModel ArticleViewModel { get; set; }
     }
 }

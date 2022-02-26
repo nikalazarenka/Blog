@@ -1,6 +1,7 @@
 ﻿using Blog.Data.Interfaces;
 using Blog.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +16,16 @@ namespace Blog.Data.Repository
         }
         public IEnumerable<Article> Articles => appDbContext.Articles.Include(c => c.Category);
 
-        public void Create(string name, string shortDescription, string description, string Image, Date date, Category category, List<Tag> tags)
+        public void Create(string name, string shortDescription, string description, string Image, int category, int tag)
         {
+            Date date = new Date
+            {
+                Datetime = DateTime.Now.ToString()
+            };
+
+            appDbContext.Dates.Add(date);
+            appDbContext.SaveChanges();
+
             Article article = new Article
             {
                 Name = name,
@@ -25,9 +34,9 @@ namespace Blog.Data.Repository
                 Image = Image,
                 Date = date,
                 DateId = date.Id,
-                Category = category,
-                CategoryId = category.Id,
-                Tags = tags
+                Category = appDbContext.Categories.FirstOrDefault(c=>c.Id==category),
+                CategoryId = category,
+                Tags = appDbContext.Tags.Where(t=>t.Id==tag).ToList()
             };
 
             appDbContext.Articles.Add(article);
@@ -44,8 +53,17 @@ namespace Blog.Data.Repository
             }
         }
 
-        public void Edit(Article article)
+        public void Edit(int id, string name, string shortDescription, string description, string image, int category, int tag)
         {
+            Article article = getObjectArticle(id);
+            article.Name = name;
+            article.ShortDescription = shortDescription;
+            article.Description = description;
+            article.Image = image;
+            article.Category = appDbContext.Categories.FirstOrDefault(c => c.Id == category);
+            article.CategoryId = category;
+            article.Tags = appDbContext.Tags.Where(t => t.Id == tag).ToList();
+
             appDbContext.Articles.Update(article);
             appDbContext.SaveChanges();
         }

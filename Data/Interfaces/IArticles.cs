@@ -8,8 +8,8 @@ namespace Blog.Data.Interfaces
         IEnumerable<Article> Articles { get; }
         Article getObjectArticle(int? articleId);
 
-        public void Create(string name, string shortDescription, string description, string Image, Date date, Category category, List<Tag> tags);
+        public void Create(string name, string shortDescription, string description, string Image, int category, int tag);
         public void Delete(int? id);
-        public void Edit(Article article);
+        public void Edit(int id, string name, string shortDescription, string description, string image, int category, int tag);
     }
 }

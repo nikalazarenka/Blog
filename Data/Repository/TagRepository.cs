@@ -15,7 +15,7 @@ namespace Blog.Data.Repository
         }
         public IEnumerable<Tag> Tags => appDbContext.Tags;
 
-        public List<Tag> getObjectTagsByArticleId(int articleId)
+        public List<Tag> getObjectTagsByArticleId(int? articleId)
         {
             return appDbContext.Articles
             .Where(article => article.Id == articleId)

@@ -1,63 +1,63 @@
 ﻿@model ArticlesViewModel
 
+<h1>ARTICLES</h1>
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <h1>ARTICLES</h1>
     <form asp-controller="Article" asp-action="Create" method="get">
         <div class="form-group">
             <input type="submit" class="btn btn-danger" value="Add New" style="background-color: dodgerblue; border-color: dodgerblue;" />
         </div>
     </form>
 }
-else
-{
-    <h1 align="center">CATALOG</h1>
-}
-<form method="get">
-    <div>
-        <div style="margin-left: 10px; display: inline-block">
-            <label>Category: </label>
-            <select name="category" asp-items="Model.FilterViewModel.Categories" class="form-control" style="width: 100px"></select>
-        </div>
-        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
-            <label>Date: </label>
-            <select name="date" asp-items="Model.FilterViewModel.Dates" class="form-control" style="width: 100px"></select>
-        </div>
-        <div style="margin-left: 10px; margin-right: 10px; display: inline-block">
-            <label>Tag: </label>
-            <select name="tag" asp-items="Model.FilterViewModel.Tags" class="form-control" style="width: 100px"></select>
-        </div>
-        <input type="submit" value="Filter" class="btn btn-outline-dark" />
-    </div>
-</form>
-    
-<div class="row mt-5 mb-2">
-    @{
-        foreach (Article article in Model.Articles)
-        {
-            @Html.Partial("AllArticle", article)
 
+    <div class="row mt-5 mb-2">
+        @{
+            foreach (Article article in Model.Articles)
+            {
+                <div class="col-lg-4">
+                    <img class="img-thumbnail" src="@article.Image" alt="@article.Name" />
+                    <h2>@article.Name</h2>
+                    <p>@article.Category.Name</p>
+                    <p>@article.ShortDescription</p>
+                    <div class="d-flex">
+                        <p><a class="btn btn-warning" asp-controller="More" asp-route-id="@article.Id" style="margin-right: 2px">More</a></p>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <form asp-controller="Article" asp-action="Edit" asp-route-id="@article.Id" method="get">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-danger" value="Edit" style="background-color: limegreen; border-color: limegreen; margin-right: 2px" />
+                                </div>
+                            </form>
+                            <form asp-controller="Article" asp-action="Delete" asp-route-id="@article.Id" method="post">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-danger" value="Delete" style="background-color: indianred; border-color: indianred" />
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
+            }
         }
+    </div>
+
+
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Previous
+        </a>
     }
-</div>
 
-
-@if (Model.PageViewModel.HasPreviousPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       class="btn btn-outline-dark">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Previous
-    </a>
-}
-
-@if (Model.PageViewModel.HasNextPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       class="btn btn-outline-dark">
-        Next
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-}
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Next
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }

@@ -10,26 +10,26 @@ namespace Blog.ViewModels
 {
     public class CreateOrEditArticleViewModel
     {
-        //[Required]
-        //public string Name { get; set; }
+        public int Id { get; set; }
+        public Date Date { get; set; }
 
-        //[Required]
-        //public string ShortDescription { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-        //[Required]
-        //public string Description { get; set; }
+        [Required]
+        public string ShortDescription { get; set; }
 
-        //[Required]
-        //public string Image { get; set; }
+        [Required]
+        public string Description { get; set; }
 
-        //[Required]
-        //public Category Category { get; set; }
+        [Required]
+        public string Image { get; set; }
 
-        //public List<Tag> Tags { get; set; }
+        [Required]
+        public Category Category { get; set; }
 
-        public Article Article { get; set; }
+        public List<Tag> Tags { get; set; }
 
-        public SelectViewModel SelectViewModel { get; set; }
-
+        public ArticlesViewModel ArticlesViewModel { get; set; }
     }
 }
