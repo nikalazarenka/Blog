@@ -2,7 +2,6 @@
 using Blog.Data.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
